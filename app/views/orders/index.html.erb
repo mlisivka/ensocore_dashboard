@@ -1,0 +1,8 @@
+<% @orders.each do |order| %>
+  <p>
+    Email: <%= order.email %><br>
+    First name: <%= order.first_name %><br>
+    Last name: <%= order.last_name %><br>
+    Amount: <%= order.amount %><br>
+  </p>
+<% end %>

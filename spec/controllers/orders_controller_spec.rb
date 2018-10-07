@@ -1,17 +1,31 @@
 require 'rails_helper'
 
 RSpec.describe OrdersController, type: :controller do
+  describe '#index' do
+    before do
+      get :index
+    end
+
+    it 'renders http success' do
+      expect(response).to have_http_status(:ok)
+    end
+
+    it 'renders the :index template' do
+      expect(response).to render_template(:index)
+    end
+  end
+
   describe '#create' do
     context 'when the attributes are valid' do
       before do
         post :create, params: { order: attributes_for(:order) }
       end
 
-      it 'render http success' do
+      it 'renders http success' do
         expect(response).to have_http_status(:ok)
       end
 
-      it 'render notice created' do
+      it 'renders notice created' do
         expect(json['notice']).to eq 'Created'
       end
 
@@ -24,7 +38,7 @@ RSpec.describe OrdersController, type: :controller do
 
     context 'when the attributes are invalid' do
       context 'with invalid amount' do
-        it 'render errors' do
+        it 'renders errors' do
           post :create, params: { order: attributes_for(:order, amount: nil) }
 
           expect(json['errors']['amount'])
@@ -35,7 +49,7 @@ RSpec.describe OrdersController, type: :controller do
       end
 
       context 'with invalid first_name' do
-        it 'render errors' do
+        it 'renders errors' do
           post :create,
             params: { order: attributes_for(:order, first_name: nil) }
 
@@ -48,7 +62,7 @@ RSpec.describe OrdersController, type: :controller do
       end
 
       context 'with invalid last_name' do
-        it 'render errors' do
+        it 'renders errors' do
           post :create,
             params: { order: attributes_for(:order, last_name: nil) }
 
@@ -61,7 +75,7 @@ RSpec.describe OrdersController, type: :controller do
       end
 
       context 'with invalid email' do
-        it 'render errors' do
+        it 'renders errors' do
           post :create, params: { order: attributes_for(:order, email: nil) }
           expect(json['errors']['email'])
             .to match_array(["can't be blank", 'is invalid'])
