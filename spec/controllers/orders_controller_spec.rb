@@ -2,16 +2,61 @@ require 'rails_helper'
 
 RSpec.describe OrdersController, type: :controller do
   describe '#index' do
-    before do
-      get :index
+    let!(:order) do
+      create(:order, email: 'sobaka@gavgaka.ua', last_name: 'Willson')
     end
+    let!(:orders) { create_list(:order, 3) }
 
-    it 'renders http success' do
+    it 'returns http success' do
+      get :index
       expect(response).to have_http_status(:ok)
     end
 
     it 'renders the :index template' do
+      get :index
       expect(response).to render_template(:index)
+    end
+
+    context 'when present email as filter param' do
+      before do
+        get :index, params: { filter: { email: '%@gmail.com' } }
+      end
+
+      it 'returns http success' do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'returns filtered orders if there is filter by email' do
+        expect(assigns(:orders)).to match_array(orders)
+      end
+    end
+
+    context 'when present last_name as filter param' do
+      before do
+        get :index, params: { filter: { last_name: '_now' } }
+      end
+
+      it 'returns http success' do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'returns filtered orders if there is filter by last_name' do
+        expect(assigns(:orders)).to match_array(orders)
+      end
+    end
+
+    context 'when present email and last_name as filter param' do
+      before do
+        get :index, params: { filter: { email: 'sobaka%', last_name: '%ills' } }
+      end
+
+      it 'returns http success' do
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'returns filtered orders if there are filter by email and last_name' do
+        expect(assigns(:orders)).to match_array(order)
+      end
     end
   end
 
@@ -21,7 +66,7 @@ RSpec.describe OrdersController, type: :controller do
         post :create, params: { order: attributes_for(:order) }
       end
 
-      it 'renders http success' do
+      it 'returns http success' do
         expect(response).to have_http_status(:ok)
       end
 

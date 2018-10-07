@@ -1,5 +1,5 @@
 RSpec.shared_examples 'invalid order attributes' do |attribute|
-  it 'render http bad request' do
+  it 'returns http bad request' do
     post :create, params: { order: attributes_for(:order, attribute => nil) }
     expect(response).to have_http_status(:bad_request)
   end

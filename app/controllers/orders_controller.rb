@@ -1,6 +1,10 @@
 class OrdersController < ApplicationController
   def index
-    @orders = Order.all
+    if params[:filter]
+      @orders = Order.filter(params[:filter])
+    else
+      @orders = Order.all
+    end
   end
 
   def create
