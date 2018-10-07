@@ -1,8 +1,20 @@
-<% @orders.each do |order| %>
-  <p>
-    Email: <%= order.email %><br>
-    First name: <%= order.first_name %><br>
-    Last name: <%= order.last_name %><br>
-    Amount: <%= order.amount %><br>
-  </p>
-<% end %>
+<table id='ordersTable' class="table table-bordered table-striped">
+  <thead>
+    <tr>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Email</th>
+      <th>Amount</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @orders.each do |order| %>
+      <tr>
+        <td><%= order.first_name %></td>
+        <td><%= order.last_name %></td>
+        <td><%= order.email %></td>
+        <td><%= order.amount %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
