@@ -1,3 +1,11 @@
+<p>
+  <%= form_tag orders_path, method: :get do |f| %>
+    <%= text_field_tag 'filter[email]', nil, placeholder: 'Filter by email' %> <br>
+    <%= text_field_tag 'filter[last_name]', nil, placeholder: 'Filter by last name' %> <br>
+    <%= submit_tag 'Filter' %>
+  <% end %>
+</p>
+
 <table id='ordersTable' class="table table-bordered table-striped">
   <thead>
     <tr>
